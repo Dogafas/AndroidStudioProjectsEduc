@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">QuadSnap</string>
+    <string name="compose_string">Компонуемая строка</string>
+    <string name="compose_colomn">Компонуемый столбец</string>
+    <string name="composabe_image">Компонуемое изображение</string>
+    <string name="composable_text">Компонуемый текст</string>
+    <string name="material_design_text">Отображает текст и следует рекомендуемым принципам Material Design.</string>
+    <string name="material_design_painter">Создает компонуемый объект, который размещает и рисует заданный объект класса Painter.</string>
+    <string name="composable_design_striing">Компоновочный макет, размещающий дочерние элементы в горизонтальной последовательности.</string>
+    <string name="composable_design_colomn">Компоновочный макет, размещающий дочерние элементы в вертикальной последовательности.</string>
+</resources>

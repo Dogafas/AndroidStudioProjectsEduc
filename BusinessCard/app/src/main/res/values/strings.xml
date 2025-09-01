@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">BusinessCard</string>
+    <string name="full_name">Yury Rupasov</string>
+    <string name="title">Python, PostgreSQL, Django Framework Developer</string>
+</resources>
