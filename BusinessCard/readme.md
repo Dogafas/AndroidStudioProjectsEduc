@@ -47,7 +47,7 @@ app/
 
 1.  Клонируйте репозиторий:
     ```sh
-    git clone https://github.com/YOUR_USERNAME/YOUR_REPOSITORY.git
+    git clone https://github.com/Dogafas/AndroidStudioProjectsEduc/tree/master/BusinessCard
     ```
 2.  Откройте проект в Android Studio Hedgehog или новее.
 3.  Запустите сборку Gradle.
