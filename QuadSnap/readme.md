@@ -83,7 +83,7 @@ app/
 
 To run this project:
 
-1. Clone the repository: `git clone https://github.com/dogafas/quadsnap.git`
+1. Clone the repository: `git clone https://github.com/Dogafas/AndroidStudioProjectsEduc/tree/master/QuadSnap`
 2. Open the project in Android Studio (latest stable version recommended).
 3. Let Gradle sync the project dependencies.
 4. Run the app on an emulator or a physical Android device.
