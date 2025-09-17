@@ -1,0 +1,15 @@
+<resources>
+    <!-- UI Text -->
+    <string name="tap_lemon_tree">Нажмите на лимонное дерево, чтобы выбрать лимон</string>
+    <string name="keep_tapping_lemon">Продолжайте нажимать на лимон, чтобы выжать его</string>
+    <string name="tap_lemonade">Нажмите на лимонад, чтобы выпить его</string>
+    <string name="tap_empty_glass">Нажмите на пустой стакан, чтобы начать заново</string>
+
+    <!-- Content Descriptions -->
+    <string name="lemon_tree_content_description">Лимонное дерево</string>
+    <string name="lemon_content_description">Лимон</string>
+    <string name="lemonade_content_description">Стакан лимонада</string>
+    <string name="empty_glass_content_description">Пустой стакан</string>
+
+
+</resources>
