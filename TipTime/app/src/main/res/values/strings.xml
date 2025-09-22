@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string name="app_name">Расчёт чаевых</string>
+
+    <string name="bill_amount">Сумма счёта</string>
+    <string name="tip_amount">Сумма чаевых: %1$s</string>
+    <string name="calculate_tip">Рассчитать чаевые</string>
+    <string name="tip_percent">Процент чаевых</string>
+
+<!--    <plurals name="rubles">-->
+<!--        <item quantity="one">%1$.2f рубль</item>-->
+<!--        <item quantity="few">%1$.2f рубля</item>-->
+<!--        <item quantity="many">%1$.2f рублей</item>-->
+<!--        <item quantity="other">%1$.2f рублей</item>-->
+<!--    </plurals>-->
+
+
+
+</resources>
