@@ -7,6 +7,8 @@
     <string name="tip_amount">Сумма чаевых: %1$s</string>
     <string name="calculate_tip">Рассчитать чаевые</string>
     <string name="tip_percent">Процент чаевых</string>
+    <string name="round_up_tip">Округлить чаевые?</string>
+    <string name="clear_button_text">Очистить</string> <!-- Новая строка -->
 
 <!--    <plurals name="rubles">-->
 <!--        <item quantity="one">%1$.2f рубль</item>-->
