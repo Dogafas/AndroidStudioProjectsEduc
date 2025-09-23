@@ -7,7 +7,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -40,11 +42,10 @@ class MainActivity : ComponentActivity() {
 fun TipTimeLayout() {
     var rawAmountInput by rememberSaveable { mutableStateOf("") }
     var rawPercentInput by rememberSaveable { mutableStateOf("") }
-    var roundUpTip by rememberSaveable { mutableStateOf(false) } // Состояние для Switch
+    var roundUpTip by rememberSaveable { mutableStateOf(false) }
 
     val amount = parseAndRound(rawAmountInput)
     val tipPercent = parseAndRound(rawPercentInput)
-    // Передаем roundUpTip в calculateTipRaw
     val tipAmount = calculateTipRaw(amount, tipPercent, roundUpTip)
 
     val amountText = stringResource(R.string.tip_amount, formatRublesAndKopecks(amount))
@@ -54,6 +55,7 @@ fun TipTimeLayout() {
         modifier = Modifier
             .statusBarsPadding()
             .padding(horizontal = 40.dp)
+            .verticalScroll(rememberScrollState())
             .safeDrawingPadding(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
@@ -91,7 +93,7 @@ fun TipTimeLayout() {
             label = stringResource(R.string.tip_percent),
             value = rawPercentInput,
             onValueChange = { rawPercentInput = it },
-            maxDigits = 3, // Для процентов обычно достаточно 3 цифр (например, 100)
+            maxDigits = 3,
             trailingIcon = {
                 Icon(
                     painter = painterResource(id = R.drawable.percent),
@@ -107,15 +109,14 @@ fun TipTimeLayout() {
             style = MaterialTheme.typography.displaySmall
         )
 
-        Spacer(modifier = Modifier.height(16.dp)) // Небольшой отступ перед Switch
+        Spacer(modifier = Modifier.height(16.dp))
 
-        // Row для Switch и его подписи
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween // Размещаем элементы по краям
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(text = stringResource(R.string.round_up_tip))
             Switch(
@@ -124,7 +125,7 @@ fun TipTimeLayout() {
             )
         }
 
-        Spacer(modifier = Modifier.height(16.dp)) // Небольшой отступ после Switch
+        Spacer(modifier = Modifier.height(16.dp))
 
         val isPressed = remember { mutableStateOf(false) }
         val buttonColor by animateColorAsState(
@@ -136,7 +137,7 @@ fun TipTimeLayout() {
                 isPressed.value = true
                 rawAmountInput = ""
                 rawPercentInput = ""
-                roundUpTip = false // Сбрасываем и состояние Switch
+                roundUpTip = false
             },
             colors = ButtonDefaults.buttonColors(containerColor = buttonColor)
         ) {
@@ -152,7 +153,7 @@ fun EditNumberField(
     label: String,
     value: String,
     onValueChange: (String) -> Unit,
-    maxDigits: Int, // Максимальное количество цифр в целой части
+    maxDigits: Int,
     modifier: Modifier = Modifier,
     trailingIcon: (@Composable () -> Unit)? = null
 ) {
@@ -182,15 +183,10 @@ fun EditNumberField(
             val decimalPart = if (parts.size > 1) parts[1] else null
 
             if (integerPart.length <= maxDigits && (decimalPart == null || decimalPart.length <= 2)) {
-                 // Если все проверки пройдены, обновляем значение
                 onValueChange(filteredText)
             } else if (value.length > filteredText.length && (integerPart.length <= maxDigits && (decimalPart == null || decimalPart.length <=2))) {
-                 // Разрешаем удаление символов, если даже после удаления строка остается валидной
-                 // или становится валидной по длине.
-                 onValueChange(filteredText)
+                onValueChange(filteredText)
             }
-            // В иных случаях (попытка ввести символ, нарушающий правила длины или формата)
-            // onValueChange не вызывается, и поле ввода не изменится.
         },
         label = { Text(label) },
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -201,27 +197,21 @@ fun EditNumberField(
 }
 
 private fun parseAndRound(input: String): Double {
-    // Ожидаем, что input уже прошел базовую фильтрацию в EditNumberField
-    // и содержит только цифры и, возможно, одну точку.
     val value = input.toDoubleOrNull() ?: 0.0
-    // Округляем до 2 знаков после запятой на этапе парсинга
     return String.format("%.2f", value).replace(",", ".").toDouble()
 }
 
-// Обновленная функция calculateTipRaw
 private fun calculateTipRaw(amount: Double, tipPercent: Double, roundUp: Boolean): Double {
     var rawTip = tipPercent / 100 * amount
     if (roundUp) {
-        rawTip = ceil(rawTip) // Округляем вверх, если roundUp = true
+        rawTip = ceil(rawTip)
     }
-    // Форматируем до двух знаков после запятой ПОСЛЕ возможного округления ceil
     return String.format("%.2f", rawTip).replace(",", ".").toDouble()
 }
 
 fun formatRublesAndKopecks(amount: Double): String {
     val rubles = amount.toInt()
-    // Убедимся, что копейки считаются корректно после ceil
-    val kopecks = ((amount - rubles) * 100 + 0.00001).toInt() // Небольшая поправка для точности при работе с Double
+    val kopecks = ((amount - rubles) * 100 + 0.00001).toInt()
     val rubleWord = getRubleWord(rubles)
     val kopeckWord = getKopeckWord(kopecks)
     return "$rubles $rubleWord $kopecks $kopeckWord"
