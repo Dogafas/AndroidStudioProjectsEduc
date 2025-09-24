@@ -23,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.tiptime.ui.theme.TipTimeTheme
 import org.jetbrains.annotations.VisibleForTesting
+import java.util.Locale // Импорт Locale
 import kotlin.math.ceil
 
 class MainActivity : ComponentActivity() {
@@ -168,6 +169,7 @@ fun EditNumberField(
                 return@OutlinedTextField
             }
 
+            // Фильтруем текст, оставляя только цифры и одну точку
             var filteredText = ""
             var hasDecimalPoint = false
             for (char in newText) {
@@ -179,13 +181,17 @@ fun EditNumberField(
                 }
             }
 
+            // Разделяем на целую и дробную части для проверки длины
             val parts = filteredText.split('.')
             val integerPart = parts[0]
             val decimalPart = if (parts.size > 1) parts[1] else null
 
-            if (integerPart.length <= maxDigits && (decimalPart == null || decimalPart.length <= 2)) {
-                onValueChange(filteredText)
-            } else if (value.length > filteredText.length && (integerPart.length <= maxDigits && (decimalPart == null || decimalPart.length <=2))) {
+            // Проверяем валидность целой и дробной части по длине
+            val isIntegerPartValid = integerPart.length <= maxDigits
+            val isDecimalPartValid = decimalPart == null || decimalPart.length <= 2
+
+            // Если новая отфильтрованная строка валидна по длине, обновляем значение
+            if (isIntegerPartValid && isDecimalPartValid) {
                 onValueChange(filteredText)
             }
         },
@@ -199,7 +205,8 @@ fun EditNumberField(
 
 private fun parseAndRound(input: String): Double {
     val value = input.toDoubleOrNull() ?: 0.0
-    return String.format("%.2f", value).replace(",", ".").toDouble()
+    // Явно используем Locale.US для форматирования, чтобы гарантировать десятичную точку
+    return String.format(Locale.US, "%.2f", value).toDouble()
 }
 
 @VisibleForTesting
@@ -208,7 +215,8 @@ internal fun calculateTipRaw(amount: Double, tipPercent: Double, roundUp: Boolea
     if (roundUp) {
         rawTip = ceil(rawTip)
     }
-    return String.format("%.2f", rawTip).replace(",", ".").toDouble()
+    // Явно используем Locale.US для форматирования, чтобы гарантировать десятичную точку
+    return String.format(Locale.US, "%.2f", rawTip).toDouble()
 }
 
 fun formatRublesAndKopecks(amount: Double): String {
