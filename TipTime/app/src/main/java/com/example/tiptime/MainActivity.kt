@@ -22,6 +22,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.tiptime.ui.theme.TipTimeTheme
+import org.jetbrains.annotations.VisibleForTesting
 import kotlin.math.ceil
 
 class MainActivity : ComponentActivity() {
@@ -201,7 +202,8 @@ private fun parseAndRound(input: String): Double {
     return String.format("%.2f", value).replace(",", ".").toDouble()
 }
 
-private fun calculateTipRaw(amount: Double, tipPercent: Double, roundUp: Boolean): Double {
+@VisibleForTesting
+internal fun calculateTipRaw(amount: Double, tipPercent: Double, roundUp: Boolean): Double {
     var rawTip = tipPercent / 100 * amount
     if (roundUp) {
         rawTip = ceil(rawTip)
